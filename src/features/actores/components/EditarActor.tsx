@@ -12,7 +12,7 @@ export default function EditarActor(){
 
     useEffect(() => {
         const timerId = setTimeout(() => {
-            setModelo({nombre: 'Tom Cruise ' + id, fechaNacimiento: '1979-09-05'})
+            setModelo({nombre: 'Tom Cruise ' + id, fechaNacimiento: '1979-09-05', foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Gal_Gadot_2018_cropped_retouched.jpg/800px-Gal_Gadot_2018_cropped_retouched.jpg'})
         },1000);
 
         return () => clearTimeout(timerId);

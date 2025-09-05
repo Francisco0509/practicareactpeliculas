@@ -17,8 +17,7 @@ export default function FormularioGenero(props: FormularioGenerosProps){
             });
 
     return (
-        <>
-            
+        <>            
             <form onSubmit={handleSubmit(props.onSubmit)}>
                 <div className="form-group">
                     <label htmlFor="nombre">Nombre</label>
