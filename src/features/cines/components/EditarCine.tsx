@@ -12,7 +12,8 @@ export default function EditarCine(){
 
     useEffect(() => {
         setTimeout(() => {
-            setModelo({nombre: 'Plaza Adana'});
+            setModelo({nombre: 'Plaza Adana edición', latitud: 
+25.733014143036577, longitud: -100.39713263511659});
         }, 1000)
     }, [id]);
 
