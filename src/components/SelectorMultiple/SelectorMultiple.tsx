@@ -1,4 +1,5 @@
 import type SelectorMultipleModel from './SelectorMultiple.model';
+import styles from './SelectorMultiple.module.css';
 export default function SelectorMultiple(props: SelectorMultipleProps){
     const seleccionar = (item: SelectorMultipleModel) => {
         const seleccionados = [...props.seleccionados, item];
@@ -21,27 +22,29 @@ export default function SelectorMultiple(props: SelectorMultipleProps){
     }
 
     const deseleccionarTodo = () => {
-        const seleccionados = [...props.seleccionados, ...props.noSeleccionados];
-        const noSeleccionados: SelectorMultipleModel[] = [];
+        const seleccionados: SelectorMultipleModel[] = []; 
+        const noSeleccionados = [...props.seleccionados, ...props.noSeleccionados];
         props.onChange(seleccionados, noSeleccionados);
-
+    }
 
     return (
-        <div>
+        <div className={styles.div}>
             <ul>
                 {props.noSeleccionados.map(item => <li key={item.llave}
                 onClick={() => seleccionar(item)}>
                     {item.descripcion}
                 </li>)}
-            </ul>
+            </ul>            
+            <div className={styles.botones}>
+                <button type="button" onClick={seleccionarTodo}>{'>>'}</button>
+                <button type="button" onClick={deseleccionarTodo}>{'<<'}</button>
+            </div>
             <ul>
                 {props.seleccionados.map(item => <li key={item.llave}
                 onClick={() => deseleccionar(item)}>
                     {item.descripcion}
                 </li>)}
-            </ul>
-            <button type="button" onClick={seleccionarTodo}>{'>>'}</button>
-            <button type="button" onClick={deseleccionarTodo}>{'<<'}</button>
+            </ul>            
         </div>
     )
 }
