@@ -3,8 +3,9 @@ import type GeneroCreacion from "../modelos/GeneroCreacion.model";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { NavLink } from "react-router";
 import Boton from "../../../components/Boton";
-import { PrimeraLetraMayuscula } from "../../../validaciones/Validaciones";
 import * as yup from 'yup';
+import MostrarErrores from '../../../components/MostrarErrores';
+import { PrimeraLetraMayuscula } from "../../../validaciones/Validaciones";
 
 export default function FormularioGenero(props: FormularioGenerosProps){
     const {register, 
@@ -17,7 +18,8 @@ export default function FormularioGenero(props: FormularioGenerosProps){
             });
 
     return (
-        <>            
+        <>        
+            <MostrarErrores errores={props.errores} />    
             <form onSubmit={handleSubmit(props.onSubmit)}>
                 <div className="form-group">
                     <label htmlFor="nombre">Nombre</label>
@@ -37,6 +39,7 @@ export default function FormularioGenero(props: FormularioGenerosProps){
 interface FormularioGenerosProps{
     modelo?: GeneroCreacion;
     onSubmit: SubmitHandler<GeneroCreacion>;
+    errores: string[];
 }
 
 const reglasDeValidacion = yup.object({
