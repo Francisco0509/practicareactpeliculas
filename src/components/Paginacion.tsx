@@ -11,7 +11,7 @@ export default function Paginacion(props: PaginacionProps){
             paginas.push(i);
         }
     }
-    console.log('Registros por página', props.recorsdPorPagina);
+
     return (
         <>
             <div className="text-center">

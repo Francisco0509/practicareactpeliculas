@@ -3,9 +3,9 @@ import Boton from "../../../components/Boton";
 import GenericList from "../../../components/GenericList";
 import Paginacion from "../../../components/Paginacion";
 import Loading from "../../../components/Loading";
-import { useGeneros } from "../hooks/UseGeneros";
 import clienteAPI from "../../../api/clienteAxios";
-import confirmar from "../../../utilidades/Confirmar";
+import { useGeneros } from "../hooks/useGeneros";
+import confirmar from "../../../utilidades/confirmar";
 
 export default function IndiceGeneros(){
     const navigate = useNavigate();
