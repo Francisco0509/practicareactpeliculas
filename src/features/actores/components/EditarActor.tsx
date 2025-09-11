@@ -27,7 +27,7 @@ export default function EditarActor(){
     return (  
         <>
             <h3>Editar actor</h3>
-            {modelo ? <FormularioActor modelo={modelo} onSubmit={onSubmit}/> : <Loading />}
+            {modelo ? <FormularioActor errores={[]} modelo={modelo} onSubmit={onSubmit}/> : <Loading />}
         </>      
         
     )
