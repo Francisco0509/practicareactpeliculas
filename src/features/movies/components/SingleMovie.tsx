@@ -1,4 +1,4 @@
-import type Movie from "../models/movie.model";
+import type Movie from "../models/Pelicula.model";
 import styles from './SingleMovie.module.css';
 
 export default function SingleMovie(props: SingleMovieProps){

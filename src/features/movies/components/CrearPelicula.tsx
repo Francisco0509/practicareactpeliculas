@@ -3,37 +3,53 @@ import FormularioPelicula from "./FormularioPelicula";
 import type PeliculaCreacion from "../models/PeliculaCreacion.model";
 import type Genero from "../../generos/modelos/genero.model";
 import type Cine from "../../cines/models/Cines.models";
+import { useEffect, useState } from "react";
+import clienteAPI from "../../../api/clienteAxios";
+import type PeliculasPostGet from "../models/PeliculasPostGet";
+import Loading from "../../../components/Loading";
+import convertirPeliculaCreacionAFormData from "../utilidades/convertirPeliculaCreacionAFormData";
+import { useNavigate } from "react-router";
+import { extraerErrores } from "../../../utilidades/extraerErrores";
+import type { AxiosError } from "axios";
+import type Pelicula from '../models/Pelicula.model';
 
 export default function CrearPelicula(){
+    const navigate = useNavigate();
+    const [generosNoSeleccionados, setGenerosNoSeleccionados] = useState<Genero[]>([]);
+    const [cinesNoSeleccionados, setCinesNOsEleccionados] = useState<Cine[]>([]);
+    const [cargando, setCargando] = useState(true);
+    const [errores, setErrores] = useState<string[]>([]);
+    useEffect(() => {
+        clienteAPI.get<PeliculasPostGet>(`/peliculas/postget`).then(res => {
+            setGenerosNoSeleccionados(res.data.generos);
+            setCinesNOsEleccionados(res.data.cines);
+            setCargando(false);
+        });
+    }, []);
+
     const onSubmit: SubmitHandler<PeliculaCreacion> = async (data) => {
-        console.log('Creando película...');
-        await new Promise(resolve => setTimeout(resolve, 500));
-        console.log(data);
+        try {
+            const formData = convertirPeliculaCreacionAFormData(data);
+            await clienteAPI.postForm<Pelicula>('/peliculas', formData);
+            navigate('/');
+        }
+        catch (err) {
+            const errores = extraerErrores(err as AxiosError);
+            setErrores(errores);
+        }
     }
 
-    const generosSeleccionados: Genero[] = [];
-    const generosNoSeleccionados: Genero[] = [
-        {id: 1, nombre: 'Acción'},
-        {id: 2, nombre: 'Drama'},
-        {id: 3, nombre: 'Comedia'}];
-
-    const cinesSeleccionados: Cine[] = [];
-    const cinesNoSeleccionados: Cine[] = [
-        {id: 1, nombre: 'Plaza Cumbres', latitud: 0, longitud: 0},
-        {id: 2, nombre: 'Plaza Fiesta San Agustín', latitud: 0, longitud: 0},
-        {id: 3, nombre: 'Plaza Adana', latitud: 0, longitud: 0},
-        {id: 4, nombre: 'Plaza Real', latitud: 0, longitud: 0}
-    ];
     return (
         <>
             <h3>Crear Película</h3>
-            <FormularioPelicula onSubmit={onSubmit}
+            {cargando ? <Loading /> : <FormularioPelicula errores={errores} onSubmit={onSubmit}
                 generosNoSeleccionados={generosNoSeleccionados}
-                generosSeleccionados={generosSeleccionados}
+                generosSeleccionados={[]}
                 cinesNoSeleccionados={cinesNoSeleccionados}
-                cinesSeleccionados={cinesSeleccionados}
+                cinesSeleccionados={[]}
                 actoresSeleccionados={[]}
-                />
+                />}
+            
                 
         </>
             

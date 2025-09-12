@@ -49,7 +49,7 @@ export default function EditarPelicula(){
     return (        
         <>
             <h3>Editar Película</h3>
-            {modelo ? <FormularioPelicula modelo={modelo} onSubmit={onSubmit}
+            {modelo ? <FormularioPelicula errores={[]} modelo={modelo} onSubmit={onSubmit}
                 generosNoSeleccionados={generosNoSeleccionados}
                 generosSeleccionados={generosSeleccionados} 
                 cinesNoSeleccionados={cinesNoSeleccionados}

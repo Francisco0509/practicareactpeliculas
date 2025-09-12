@@ -1,4 +1,4 @@
-import type Movie from "../models/movie.model";
+import type Movie from "../models/Pelicula.model";
 import SingleMovie from "./SingleMovie";
 import styles from './MovieList.module.css';
 import GenericList from "../../../components/GenericList";

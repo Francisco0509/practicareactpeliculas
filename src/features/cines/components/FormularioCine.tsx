@@ -7,6 +7,7 @@ import Boton from "../../../components/Boton";
 import { NavLink } from "react-router";
 import Mapa from "../../../components/Mapa/Mapa";
 import type Coordenada from "../../../components/Mapa/Coordenada.model";
+import MostrarErrores from "../../../components/MostrarErrores";
 
 export default function FormularioCine(props: FormularioCineProps){
     const {register,handleSubmit,setValue,formState: {errors,isValid, isSubmitting}} = useForm<CineCreacion>({
@@ -29,6 +30,7 @@ export default function FormularioCine(props: FormularioCineProps){
     }
     return (
         <>
+        <MostrarErrores errores={props.errores} />
             <form onSubmit={handleSubmit(props.onSubmit)}>
                 <div className="form-group">
                     <label htmlFor="nombre">Nombre</label>
@@ -62,6 +64,7 @@ export default function FormularioCine(props: FormularioCineProps){
 interface FormularioCineProps{
     modelo?: CineCreacion;
     onSubmit: SubmitHandler<CineCreacion>;
+    errores: string[];
 }
 
 const reglasDeValidacion = yup.object({

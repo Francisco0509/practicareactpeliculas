@@ -1,17 +1,21 @@
-import { Typeahead } from "react-bootstrap-typeahead";
 import type ActorPelicula from "../models/ActorPelicula";
 import type { Option } from "react-bootstrap-typeahead/types/types";
 import { useState } from "react";
+import clienteAPI from "../../../api/clienteAxios";
+import { AsyncTypeahead } from "react-bootstrap-typeahead";
 
 export default function TypeaheadActores(props: TypeaheadActoresProps){
-    const actores: ActorPelicula[] = [{
-        id: 1, nombre: 'Tom Holland', personaje:'',foto:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/800px-Tom_Holland_by_Gage_Skidmore.jpg' 
-    },{
-        id: 2, nombre: 'Marisa Tomei', personaje: '', foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Marisa_Tomei_by_David_Shankbone.jpg/800px-Marisa_Tomei_by_David_Shankbone.jpg'
-    },{
-        id: 3, nombre: 'Tom Hanks', personaje: '', foto: 'https://upload.wikimedia.org/wikipedia/commons/3/39/TomHanksPrincEdw031223_%2811_of_41%29_%28cropped%29.jpg'
-    }]
+    const [actores, setActores] = useState<ActorPelicula[]>([]);
+    const [cargando, setCargando] = useState(false);
 
+    function manejarBusqueda(query: string){
+        setCargando(true);
+        clienteAPI.get<ActorPelicula[]>(`/actores/${query}`)
+        .then(res => {
+            setActores(res.data);
+            setCargando(false);
+        })
+    }
     const seleccion: ActorPelicula[] = [];
 
     const [elementoArrastrado, setElementoArrastrado] = useState<ActorPelicula | undefined>(undefined);
@@ -36,10 +40,14 @@ export default function TypeaheadActores(props: TypeaheadActoresProps){
     return (
         <>
             <label>Actores</label>
-            <Typeahead id="typeahead"
+            <AsyncTypeahead 
+                isLoading={cargando}
+                onSearch={manejarBusqueda}
+                id="typeahead"
                 onChange={(actores: Option[]) => {
                     const actorSeleccionado = actores[0] as ActorPelicula
                     if(props.actores.findIndex(x => x.id === actorSeleccionado.id) === -1){
+                        actorSeleccionado.personaje = '';
                         props.onAdd([...props.actores, actorSeleccionado]);
                     }
                 }}

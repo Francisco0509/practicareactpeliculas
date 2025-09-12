@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type Movie from "../../movies/models/movie.model";
+import type Movie from "../../movies/models/Pelicula.model";
 import MovieList from "../../movies/components/MovieList";
 
 export default function LandingPage(){
