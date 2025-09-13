@@ -1,21 +1,41 @@
-import type Movie from "../models/Pelicula.model";
+import { NavLink, useNavigate } from "react-router";
+import type Pelicula from "../models/Pelicula.model";
 import styles from './SingleMovie.module.css';
+import Boton from "../../../components/Boton";
+import confirmar from "../../../utilidades/confirmar";
+import clienteAPI from "../../../api/clienteAxios";
+import { useContext } from "react";
+import AlertaContext from "../../../utilidades/AlertaContext";
 
 export default function SingleMovie(props: SingleMovieProps){
-    const construirLink = () => `/pelicula/${props.movie.id}`
-
+    const construirLink = () => `/peliculas/${props.movie.id}`;
+    const navigate = useNavigate();
+    const alerta = useContext(AlertaContext);
+    const borrar = async (id: number) => {
+        try{
+            await clienteAPI.delete(`/peliculas/${id}`);
+            alerta();
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
     return (
         <div className={styles.div}>
-            <a href={construirLink()}>
-                <img src={props.movie.poster} />
-            </a>
+            <NavLink to={construirLink()}>
+                <img src={props.movie.poster} alt="poster"/>
+            </NavLink>
             <p>
-                <a href={construirLink()}>{props.movie.title}</a>
+                <NavLink to={construirLink()}>{props.movie.titulo}</NavLink>
             </p>
+            <Boton onClick={() => navigate(`/peliculas/editar/${props.movie.id}`)}>Editar</Boton>
+            <Boton className="btn btn-danger ms-4"
+                onClick={() => confirmar(() => borrar(props.movie.id))}
+            >Borrar</Boton>
         </div>
     )
 }
 
 interface SingleMovieProps{
-    movie: Movie
+    movie: Pelicula
 }

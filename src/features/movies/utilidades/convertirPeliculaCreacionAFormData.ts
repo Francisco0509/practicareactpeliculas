@@ -17,5 +17,5 @@ export default function convertirPeliculaCreacionAFormData(peliculaCreacion: Pel
     formData.append('actores', JSON.stringify(peliculaCreacion.actores ?? []));
 
 
-    return FormData;
+    return formData;
 }

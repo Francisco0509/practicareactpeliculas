@@ -16,20 +16,22 @@ import type Pelicula from '../models/Pelicula.model';
 export default function CrearPelicula(){
     const navigate = useNavigate();
     const [generosNoSeleccionados, setGenerosNoSeleccionados] = useState<Genero[]>([]);
-    const [cinesNoSeleccionados, setCinesNOsEleccionados] = useState<Cine[]>([]);
+    const [cinesNoSeleccionados, setCinesNoSeleccionados] = useState<Cine[]>([]);
     const [cargando, setCargando] = useState(true);
     const [errores, setErrores] = useState<string[]>([]);
     useEffect(() => {
         clienteAPI.get<PeliculasPostGet>(`/peliculas/postget`).then(res => {
             setGenerosNoSeleccionados(res.data.generos);
-            setCinesNOsEleccionados(res.data.cines);
+            setCinesNoSeleccionados(res.data.cines);
             setCargando(false);
         });
     }, []);
 
     const onSubmit: SubmitHandler<PeliculaCreacion> = async (data) => {
+        
         try {
             const formData = convertirPeliculaCreacionAFormData(data);
+            console.log("FormData", formData);
             await clienteAPI.postForm<Pelicula>('/peliculas', formData);
             navigate('/');
         }
