@@ -41,6 +41,7 @@ export default function FormularioCine(props: FormularioCineProps){
                 </div>
                 <div className="mt-4">
                     <Mapa
+                        editable={true}
                         coordenadas={transformarCoordenadas()} 
                         lugarSeleccionado={coordenada => {
                         setValue('latitud', coordenada.lat,{

@@ -32,8 +32,8 @@ export default function CrearPelicula(){
         try {
             const formData = convertirPeliculaCreacionAFormData(data);
             console.log("FormData", formData);
-            await clienteAPI.postForm<Pelicula>('/peliculas', formData);
-            navigate('/');
+            const respuesta = await clienteAPI.postForm<Pelicula>('/peliculas', formData);
+            navigate(`/peliculas/${respuesta.data.id}`);
         }
         catch (err) {
             const errores = extraerErrores(err as AxiosError);
