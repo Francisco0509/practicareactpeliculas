@@ -6,6 +6,7 @@ import confirmar from "../../../utilidades/confirmar";
 import clienteAPI from "../../../api/clienteAxios";
 import { useContext } from "react";
 import AlertaContext from "../../../utilidades/AlertaContext";
+import Autorizado from "../../seguridad/componentes/Autorizado";
 
 export default function SingleMovie(props: SingleMovieProps){
     const construirLink = () => `/peliculas/${props.movie.id}`;
@@ -28,10 +29,17 @@ export default function SingleMovie(props: SingleMovieProps){
             <p>
                 <NavLink to={construirLink()}>{props.movie.titulo}</NavLink>
             </p>
-            <Boton onClick={() => navigate(`/peliculas/editar/${props.movie.id}`)}>Editar</Boton>
-            <Boton className="btn btn-danger ms-4"
-                onClick={() => confirmar(() => borrar(props.movie.id))}
-            >Borrar</Boton>
+            <Autorizado 
+                claims={['esadmin']}
+                autorizado={<>
+                    <div>
+                        <Boton onClick={() => navigate(`/peliculas/editar/${props.movie.id}`)}>Editar</Boton>
+                        <Boton className="btn btn-danger ms-4"
+                            onClick={() => confirmar(() => borrar(props.movie.id))}
+                        >Borrar</Boton>
+                    </div>  
+                </>}
+            />                        
         </div>
     )
 }

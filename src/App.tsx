@@ -2,19 +2,28 @@ import { BrowserRouter } from 'react-router';
 import './App.css'
 import Menu from './components/Menu';
 import AppRoutes from './AppRoutes';
+import AutenticacionContext from './features/seguridad/componentes/utilidades/AutenticacionContext';
+import { useState } from 'react';
+import type Claim from './features/seguridad/componentes/modelos/Claim';
 
 function App() {
-
+  const [claims, setClaims] = useState<Claim[]>([{nombre: 'esadmin', valor: 'true'}]);
+  function actualizar(claims: Claim[]){
+    setClaims(claims);
+  }
 
   
   return (
     <>
-    <BrowserRouter>      
-      <Menu />
-      <div className="container mb-4">
-        <AppRoutes />
-      </div>
-    </BrowserRouter>
+    <AutenticacionContext.Provider value={{claims, actualizar}}>
+      <BrowserRouter>      
+        <Menu />
+        <div className="container mb-4">
+          <AppRoutes />
+        </div>
+      </BrowserRouter>
+    </AutenticacionContext.Provider>
+  
     </> 
   );
 }
