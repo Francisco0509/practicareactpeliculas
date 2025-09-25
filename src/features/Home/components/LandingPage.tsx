@@ -23,8 +23,7 @@ export default function LandingPage(){
       
               <h3>Próximos Estrenos</h3>
               <MovieList movies={peliculas.proximosEstrenos}/>
-          </AlertaContext.Provider>
-            
+          </AlertaContext.Provider>            
         </>
     )
 }

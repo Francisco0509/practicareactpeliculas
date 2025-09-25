@@ -4,11 +4,10 @@ import AutenticacionContext from "./utilidades/AutenticacionContext";
 export default function Autorizado(props: AutorizadoProps){
     const [autorizado, setAutorizado] = useState(false);
     const {claims} = useContext(AutenticacionContext);
-    console.log('Claims', claims);
+
     useEffect(() => {
         if(props.claims)
         {
-            console.log('Props claims', props.claims);
             for(let i = 0; i < props.claims.length; i++)
             {
                 const claim = props.claims[i];
@@ -25,6 +24,7 @@ export default function Autorizado(props: AutorizadoProps){
             setAutorizado(claims.length > 0);
         }
     }, [claims, props.claims]);
+    
     return (
         <>
             {autorizado ? props.autorizado : props.noAutorizado}

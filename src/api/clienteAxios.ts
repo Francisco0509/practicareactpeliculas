@@ -1,4 +1,5 @@
 import axios from "axios";
+import { obtenerToken } from "../utilidades/ManejadorJwt";
 
 const clienteAPI = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -6,5 +7,15 @@ const clienteAPI = axios.create({
         'Content-Type': 'application/json'
     }
 })
+
+clienteAPI.interceptors.request.use((config) => {
+    const token = obtenerToken();
+    console.log('Token',token);
+    if(token){
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+});
 
 export default clienteAPI;

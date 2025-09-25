@@ -5,6 +5,9 @@ import Loading from "../../../components/Loading";
 import type Pelicula from '../models/Pelicula.model';
 import type Coordenada from "../../../components/Mapa/Coordenada.model";
 import Mapa from "../../../components/Mapa/Mapa";
+import Rating from "../../../components/Rating/Rating";
+import type RatingCreacion from "../../../components/Rating/RatingCreacion.model";
+import Swal from "sweetalert2";
 
 export default function DetallePelicula(){
     const [pelicula, setPelicula] = useState<Pelicula | null>(null)
@@ -13,6 +16,7 @@ export default function DetallePelicula(){
     useEffect(() => {
         try{
             clienteAPI.get<Pelicula>(`/peliculas/${id}`).then(res => {
+                console.log('Pelicula', res.data)
                 setPelicula(res.data)
             })
         }
@@ -44,6 +48,11 @@ export default function DetallePelicula(){
         })
     }
 
+    function manejarVoto(voto: number){
+        const data: RatingCreacion = {peliculaId: Number(id), puntuacion: voto};
+        clienteAPI.post('/ratings', data).then(() => Swal.fire({icon: 'success', title: 'Voto recibido'}))
+    }
+
     return (
         <>
             <div className="container my-4">
@@ -58,7 +67,9 @@ export default function DetallePelicula(){
                         </div>
                     )}
 
-                <p className="text-muted">Estreno: {fechaFormateada}</p> 
+                <p className="text-muted">Estreno: {fechaFormateada} | 
+                    Puntuación promedio: {pelicula.promedioVoto} | 
+                    Mi rating <Rating maximoValor={5} valorSeleccionado={pelicula.usuarioVoto} onChange={voto => manejarVoto(voto)}/> </p> 
                 </div>
                 <div className="d-flex">
                     <span className="d-inline-block me-2">

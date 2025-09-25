@@ -15,11 +15,18 @@ import RutaNoEncontrada from "./components/RutaNoEncontrada";
 import FiltrarPeliculas from "./features/movies/components/FiltrarPeliculas";
 import DetallePelicula from "./features/movies/components/DetallePelicula";
 import RutaProtegida from "./features/seguridad/componentes/RutaProtegida";
+import Registro from "./features/seguridad/componentes/Registro";
+import Login from "./features/seguridad/componentes/Login";
+import IndiceUsuarios from "./features/seguridad/componentes/IndiceUsuarios";
 
 export default function AppRoutes(){
     return (
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/login" element={<Login />} />
+
+          
 
           <Route element={<RutaProtegida claims={['esadmin']} />}>
             <Route path="/generos" element={<IndiceGeneros />} />
@@ -37,6 +44,7 @@ export default function AppRoutes(){
             <Route path="/peliculas/crear" element={<CrearPelicula />} />
             <Route path="/peliculas/editar/:id" element={<EditarPelicula />} />
 
+            <Route path="/usuarios" element={<IndiceUsuarios />} />
           </Route>
           <Route path="/peliculas/filtrar" element={<FiltrarPeliculas />} />
           <Route path="/peliculas/:id" element={<DetallePelicula />} />

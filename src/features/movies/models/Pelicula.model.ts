@@ -11,4 +11,6 @@ export default interface Movie{
     generos?: Genero[];
     cines?: Cine[];
     actores?: ActorPelicula[];
+    usuarioVoto: number;
+    promedioVoto: number;
 }
